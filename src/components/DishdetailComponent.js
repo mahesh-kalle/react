@@ -29,8 +29,7 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
-        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
     render () {
@@ -55,9 +54,9 @@ class CommentForm extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="yourname" sm={12}>Your Name</Label>
+                                <Label htmlFor="author" sm={12}>Your Name</Label>
                                 <Col sm={12}>
-                                    <Control.text model=".yourname" id="yourname" name="yourname"
+                                    <Control.text model=".author" id="author" name="author"
                                         placeholder="Your Name"
                                         className="form-control"
                                         validators={{
@@ -66,7 +65,7 @@ class CommentForm extends Component {
                                          />
                                     <Errors
                                         className="text-danger"
-                                        model=".yourname"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             minLength: 'Must be greater than 2 characters',
@@ -98,7 +97,7 @@ class CommentForm extends Component {
     };
 }
 
-function RenderComments({comments}) {
+function RenderComments({comments, addComment, dishId}) {
     if (comments != null) {
         var displayComments = comments.map((comment) => {
             return (
@@ -107,7 +106,7 @@ function RenderComments({comments}) {
                         <li key={comment.id}>
                             <p>{comment.comment}</p>
                             <p>
-                                -- {comment.author},&nbsp; 
+                                -- {comment.author},
                                 {new Intl.DateTimeFormat(
                                     'en-US', 
                                     { year: 'numeric', month: 'short', day: '2-digit'}
@@ -124,7 +123,7 @@ function RenderComments({comments}) {
             <div>
                 <h4>Comments</h4>
                 {displayComments}
-                <CommentForm />
+                <CommentForm dishId={dishId} addComment={addComment} />
             </div>
         );
     } else {
@@ -174,7 +173,7 @@ function RenderComments({comments}) {
                     <div className="col-12 col-md-5 m-1">
                     <RenderComments
                         comments={props.comments}
-                        postComment={props.postComment}
+                        addComment={props.addComment}
                         dishId={props.dish.id}
                     />
                     </div>
