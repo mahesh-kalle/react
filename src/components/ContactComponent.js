@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Breadcrumb, BreadcrumbItem,
     Button, Row, Col, Label } from 'reactstrap';
-import { Control, Form, Errors, actions } from 'react-redux-form';
+import { Control, Form, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 
 
@@ -62,6 +62,7 @@ class Contact extends Component {
     handleSubmit(values) {
         console.log('Current State is: ' + JSON.stringify(values));
         alert('Current State is: ' + JSON.stringify(values));
+        this.props.postFeedback(values);
         this.props.resetFeedbackForm();
         // event.preventDefault();
     }
@@ -97,8 +98,8 @@ class Contact extends Component {
 
     render(){
 
-        const errors = this.validate(this.state.firstname, this.state.lastname, 
-                        this.state.telnum, this.state.email);
+        /*const errors = this.validate(this.state.firstname, this.state.lastname, 
+                        this.state.telnum, this.state.email);*/
 
         return(
             <div className="container">
@@ -256,7 +257,7 @@ class Contact extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="message" md={2}>Your Feedback</Label>
+                                <Label htmlFor="feedback" md={2}>Your Feedback</Label>
                                 <Col md={10}>
                                     <Control.textarea model=".message" id="message" name="message"
                                         rows="12"
